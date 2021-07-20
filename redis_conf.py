@@ -1,4 +1,5 @@
 import redis
+import os
 
 class RedisConf:
     @staticmethod
@@ -8,10 +9,13 @@ class RedisConf:
         :param decode_responses: Allows for reading a cached object from redis and type cast it 
                                  to python types, if True
         """
+        host = os.getenv('redis_host')
+        port = os.getenv('redis_port')
+        password = os.getenv('redis_password')
         r_client = redis.Redis(
-            host='localhost',
-            port=6379,
+            host='localhost' or host,
+            port=6379 or port,
             decode_responses=decode_responses,
-            password=''
+            password='' or password
         )
         return r_client
