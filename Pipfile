@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 redis = "*"
 bs4 = "*"
+requests = "*"
+pytelegrambotapi = "*"
 
 [dev-packages]
 
