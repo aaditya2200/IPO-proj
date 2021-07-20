@@ -1,0 +1,46 @@
+import sys
+from tasks.fetch_ipo_details import fetch_ipo_details
+from tasks.notify import notify
+from tasks.get_market_sentiment import get_market_sentiment
+from tasks.get_rh_prospectus import get_rh_prospectus
+
+available_commands = {
+    'notify': {
+        'name': 'notify',
+        'help': '',
+    },
+    'fetch_ipo_details': {
+        'name': 'fetch_ipo_details',
+        'help': '',
+    },
+    'get_market_sentiment': {
+        'name': 'get_market_sentiment',
+        'help': '',
+    },
+    'get_rh_prospectus': {
+        'name': 'get_market_prospectus',
+        'help': '',
+    },
+}
+
+def main(argv):
+    if not len(argv) or argv[0] not in available_commands.keys():
+        print('Available commands: ')
+        for key, val in available_commands.items():
+            print('-> {}: {}'.format(
+                key, val['help']
+            ))
+        print('\n')
+        return
+    task_name = argv[0]
+    if task_name == available_commands['notify']['name']:
+        notify()
+    elif task_name == available_commands['get_rh_prospectus']['name']:
+        get_rh_prospectus()
+    elif task_name == available_commands['get_market_sentiment']['name']:
+        get_market_sentiment()
+    elif task_name == available_commands['fetch_ipo_details']['name']:
+        fetch_ipo_details()
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
