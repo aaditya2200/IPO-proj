@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 redis = "*"
+bs4 = "*"
 
 [dev-packages]
 
