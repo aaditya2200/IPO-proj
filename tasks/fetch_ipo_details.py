@@ -16,7 +16,7 @@ def fetch_ipo_details():
         bot.send_message(message.chat.id, GREET_MESSAGE)
         bot.send_message(message.chat.id, "This is your first time using this bot!")
         # bot.send_message(message.chat.id, IPOScraper.ipo_scraper())
-        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['ipo_details'])
+        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
         if response == 1:
             print('❌ Cannot fetch details from redis')
             return
@@ -24,7 +24,8 @@ def fetch_ipo_details():
             print('❌ Cannot fetch details from redis')
             return
 
-        for item in data:
+        for i in range(len(data)):
+            item = data[i]
             data_str = DATA_STR.format(
                 item['Issuer Company'],
                 item['Exchange'],

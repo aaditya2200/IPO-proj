@@ -1,6 +1,6 @@
 import json
 import random
-
+from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
@@ -43,6 +43,7 @@ class IPOScraper:
 
     @staticmethod
     def store_in_redis(data):
+        today = datetime.today()
         redis_client = RedisConf.create_connection_to_redis_server(True)
         for row in data:
             values_dict = {
@@ -54,11 +55,20 @@ class IPOScraper:
                 'Issue Price (Rs)': row[5],
                 'Issue Price (Rs. Cr.)': row[6]
             }
+            try:
+                ipo_closing_date = datetime.strptime(row[3], '%b %d, %Y')
+            except Exception as e:
+                print('❌ Invalid date format: ', e)
+                return
+            if ipo_closing_date > today:
+                hash_name = REDIS_HASHES['current_ipo_details']
+            else:
+                hash_name = REDIS_HASHES['closed_ipo_details']
             value_json = json.dumps(values_dict)
             key = row[0]
             RedisConf.store_in_redis(
                 r_client=redis_client,
-                hash_name=REDIS_HASHES['ipo_details'],
+                hash_name=hash_name,
                 key=key,
                 value=value_json
             )
