@@ -33,3 +33,11 @@ USER_AGENT_LIST = [
     'Mozilla/5.0 (Android 11; Mobile; rv:68.0) Gecko/68.0 Firefox/88.0',
     'Mozilla/5.0 (Android 11; Mobile; LG-M255; rv:88.0) Gecko/88.0 Firefox/88.0'
 ]
+
+URL = "https://www.chittorgarh.com/report/ipo-in-india-list-main-board-sme/82/"
+BOT_TOKEN = "1925784175:AAGlfZh7q6vkxpNXdpHr9HaCv1QcTn7keM4"
+GREET_MESSAGE = "Hello and welcome to the IPO Checker Bot! I will get the latest IPOs in your country and show it to you!"
+REDIS_HASHES = {
+    'ipo_details': 'IPO_DETAILS'
+}
+DATA_STR = 'Issuer Company: {}\nExchange: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price In Rupees: {}\nIssue Price In Rupees (Cr.): {}'
