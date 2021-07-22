@@ -52,3 +52,11 @@ class RedisConf:
             return 0
         else:
             return 1
+
+    @staticmethod
+    def delete_from_hash(r_client, key, hash_name):
+        if not r_client or not hash_name:
+            return 1
+        response = r_client.hdel(hash_name, key)
+        if response == 1:
+            return 0

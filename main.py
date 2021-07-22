@@ -4,6 +4,7 @@ from tasks.notify import notify
 from tasks.get_market_sentiment import get_market_sentiment
 from tasks.get_rh_prospectus import get_rh_prospectus
 from tasks.fetch_and_store import fetch_and_store
+from tasks.update_redis_hash import update_redis_hash
 
 available_commands = {
     'notify': {
@@ -25,6 +26,10 @@ available_commands = {
     'fetch_and_store': {
         'name': 'fetch_and_store',
         'help':'',
+    },
+    'update_redis_hash': {
+        'name': 'update_redis_hash',
+        'help': '',
     },
 }
 
@@ -49,6 +54,8 @@ def main(argv):
         fetch_ipo_details()
     elif task_name == available_commands['fetch_and_store']['name']:
         fetch_and_store()
+    elif task_name == available_commands['update_redis_hash']['name']:
+        update_redis_hash()
 
 if __name__ == '__main__':
     main(sys.argv[1:])
