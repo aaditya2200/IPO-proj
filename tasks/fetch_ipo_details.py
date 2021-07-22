@@ -28,6 +28,7 @@ def fetch_ipo_details():
         if RedisConf.check_if_exists(redis_client, str(message.chat.id), REDIS_HASHES['users']) == 1:
             bot.send_message(message.chat.id, GREET_MESSAGE)
             bot.send_message(message.chat.id, "This is your first time using this bot!")
+            bot.send_message(message.chat.id, 'If you want to be notified whenever a new IPO is available, use the command `/notify`')
             RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
             command_help(message)
         else:
@@ -61,8 +62,10 @@ def fetch_ipo_details():
     # Help
     @bot.message_handler(commands=['help'])
     def command_help(m):
+        print('✅ Received command from {}'.format(m.chat.id))
         cid = m.chat.id
-        help_text = "The following commands are available: \n"
+        bot.send_message(cid, '📚 Welcome to bot help! You will find everything you need to get started over here! ')
+        help_text = "🖊 The following commands are available: \n\n"
         for key in commands:  # generate help text out of the commands dictionary defined at the top
             help_text += key + ": "
             help_text += commands[key] + "\n"
@@ -110,6 +113,18 @@ def fetch_ipo_details():
         cid = m.chat.id
         # for cid key in redis display all subscriptions
         bot.send_message(cid, "Your subscriptions are:")
+
+    @bot.message_handler(commands=['notify'])
+    def notify(message):
+        print('✅ Received command from {}'.format(message.chat.id))
+        message_id = message.chat.id
+        if RedisConf.check_if_exists(redis_client, str(message_id), REDIS_HASHES['notifications']) == 0:
+            bot.send_message(message_id, '❗ You have already opted for notifications! You will get an update whenever '
+                                         'there is one. ')
+        elif RedisConf.check_if_exists(redis_client, str(message_id), REDIS_HASHES['users']) == 0:
+            RedisConf.store_in_redis(redis_client, str(message_id), str(message_id), REDIS_HASHES['notifications'])
+            bot.send_message(message_id, 'Congratulations! 👏 You will now be notified whenever a new IPO is available!')
+
 
     print('👂 Listening for messages')
     bot.polling()

@@ -60,3 +60,4 @@ class RedisConf:
         response = r_client.hdel(hash_name, key)
         if response == 1:
             return 0
+

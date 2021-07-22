@@ -10,5 +10,8 @@ def create_id():
 
 
 def return_as_datetime_object(date):
-    ipo_closing_date = datetime.strptime(date, '%b %d, %Y')
+    try:
+        ipo_closing_date = datetime.strptime(date, '%b %d, %Y')
+    except Exception as e:
+        print('❌ Encountered exception ', e)
     return datetime.today(), ipo_closing_date

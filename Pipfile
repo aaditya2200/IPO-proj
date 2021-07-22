@@ -7,6 +7,7 @@ name = "pypi"
 redis = "*"
 bs4 = "*"
 numpy = "*"
+celery = "*"
 
 [dev-packages]
 

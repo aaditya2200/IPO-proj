@@ -45,6 +45,7 @@ BOT_DEV_NAME = "IPO_local_bot"
 REDIS_HASHES = {
     'current_ipo_details': 'CURRENT_IPO_DETAILS',
     'closed_ipo_details': 'CLOSED_IPO_DETAILS',
-    'users': 'USERS'
+    'users': 'USERS',
+    'notifications': 'NOTIFICATION'
 }
 DATA_STR = 'Issuer Company: {}\nExchange: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price In Rupees: {}\nIssue Price In Rupees (Cr.): {}'
