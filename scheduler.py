@@ -1,6 +1,16 @@
-from redis_conf import RedisConf
-from celery import Celery
-from celery.schedules import crontab
+import schedule
+import time
+from tasks.fetch_and_store import fetch_and_store
+from tasks.notify import notify
 
-app = Celery()
 
+def task_scheduler():
+    fetch_and_store()
+    notify()
+
+
+schedule.every().day.at("21:48").do(task_scheduler)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)

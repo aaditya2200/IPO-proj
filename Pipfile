@@ -8,6 +8,7 @@ redis = "*"
 bs4 = "*"
 numpy = "*"
 celery = "*"
+schedule = "*"
 
 [dev-packages]
 
