@@ -10,9 +10,11 @@ from scrapers.mybot import MyBot
 def fetch_ipo_details():
     
     commands = {  # command description used in the "help" command
-    'start'       : 'Get used to the bot',
-    'help'        : 'Gives you information about the available commands',
-    'Docs <<company name>>': 'Gives red herring prospectus and other documentation if issued for <<company name>>'
+    '/start'       : 'Get used to the bot\n',
+    '/help'        : 'Lookup  available commands \n',
+    'Docs CompanyName ': 'Gives red herring prospectus and other documentation if issued for "Company Name" \n',
+    'Subscribe CompanyName': '<alpha version> allows you to get notifications regarding events in the IPOs timeline \n',
+    '/Subscriptions': '<alpha> Show all companies you have subscribed to\n'
      }
 
     
@@ -36,17 +38,15 @@ def fetch_ipo_details():
         if RedisConf.check_if_exists(redis_client, str(message.chat.id), REDIS_HASHES['users']) == 1:
             bot.send_message(message.chat.id, GREET_MESSAGE)
             bot.send_message(message.chat.id, "This is your first time using this bot!")
-<<<<<<< HEAD
-            RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
-        else:
-            bot.send_message(message.chat.id, '✋✋ Welcome Back!')
-=======
+            command_help(message)
 
         else:
-            bot.send_message(message.chat.id, '✋✋ Welcome Back!')
+            bot.send_message(message.chat.id, '✋✋ Welcome Back! \n')
+            bot.send_message(message.chat.id , "To view commands: " + '/help \n Here are the current and upcoming IPOs')
+
 
         RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
->>>>>>> 8550f6247e2fca4693015c5b5bfe35c88c6ea4aa
+
         # bot.send_message(message.chat.id, IPOScraper.ipo_scraper())
         response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
         if response == 1:
@@ -77,31 +77,58 @@ def fetch_ipo_details():
         cid = m.chat.id
         help_text = "The following commands are available: \n"
         for key in commands:  # generate help text out of the commands dictionary defined at the top
-            help_text += "/" + key + ": "
+            help_text +=  key + ": "
             help_text += commands[key] + "\n"
         bot.send_message(cid, help_text)  # send the generated help page
+
+
 
     #######DOC Sharing handler############
     #Should return link for red herring or zip file itself (approx 7mb)
     #def doc_req takes a message like so: Docs Zomato instead of /docs ...
     def doc_request(message):
         request = message.text.split()
-        if len(request) < 2 or request[0].lower() not in "Docs":
+        if len(request) < 2 and request[0].lower() not in "Docs":
             return False
         else:
             return True
          #if message type by use is Docs <<comany name>> then send_docs runs
-    @bot.message_handler(func=doc_request)
+    @bot.message_handler(func=doc_request) 
     def send_docs(message):
         request = message.text.split()[1]
         ##logic for getting links to red-herring prospectus shoud return no document if not available
         ##dummy message for testing
-        bot.send_message(message.chat.id , "dummy doc") 
-        
+        bot.send_message(message.chat.id , "dummy doc :" + request)
+        ##if we can send doc then we use bot.send_document else just a link
+
+
+    #####Subscriptions to IPO#########
+    def sub_IPO(message):
+        request = message.text.split()
+        if len(request) < 2 and request[0].lower() not in "Docs":
+            return False
+        else:
+            return True
+         #if message type by use is Docs <<comany name>> then send_docs runs
+    @bot.message_handler(func=sub_IPO) 
+    def add_IPO(message):
+        request = message.text.split()[1]
+        ##logic 
+        ##dummy message for testing
+        bot.send_message(message.chat.id , "you have subscribed to " + request) +"\n You will now recieve notifcations when events take place"
+        ##if we cant do subscription then atleast we need to show the timeline for that IPO ,ill look into it"
+
+    
+    
+    @bot.message_handler(commands=['Subscriptions'])
+    def command_show_subscriptions(m):
+        cid = m.chat.id
+        #for cid key in redis display all subscriptions
+        bot.send_message(cid, "Your subscriptions are:")
     
 
     print('👂 Listening for messages')
     bot.polling()
 
-    print('\n✅ Fetch IPO Details completed successfully')
+    print('\n✅  Interaction with User Completed Successfully') 
     return
