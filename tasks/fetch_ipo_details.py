@@ -14,9 +14,11 @@ def fetch_ipo_details():
     @bot.message_handler(commands=['start', 'help'])
     def send_welcome(message):
         print('✅ Received command from {}'. format(message.chat.id))
-        bot.send_message(message.chat.id, GREET_MESSAGE)
         if RedisConf.check_if_exists(redis_client, str(message.chat.id), REDIS_HASHES['users']) == 1:
+            bot.send_message(message.chat.id, GREET_MESSAGE)
             bot.send_message(message.chat.id, "This is your first time using this bot!")
+        else:
+            bot.send_message(message.chat.id, '✋✋ Welcome Back!')
         RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
         # bot.send_message(message.chat.id, IPOScraper.ipo_scraper())
         response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
