@@ -6,14 +6,13 @@ from redis_conf import RedisConf
 from scrapers.mybot import MyBot
 
 
-knownUsers = []  # todo: store in reddis
 
 def fetch_ipo_details():
     
     commands = {  # command description used in the "help" command
     'start'       : 'Get used to the bot',
     'help'        : 'Gives you information about the available commands',
-    
+    'Docs <<company name>>': 'Gives red herring prospectus and other documentation if issued for <<company name>>'
      }
 
     
@@ -30,8 +29,11 @@ def fetch_ipo_details():
     def send_welcome(message):
         print('✅ Received command from {}'. format(message.chat.id))
         bot.send_message(message.chat.id, GREET_MESSAGE)
+        ## Checking if new user or existing user  ,data stored in Redis 
+
         if RedisConf.check_if_exists(redis_client, str(message.chat.id), REDIS_HASHES['users']) == 1:
             bot.send_message(message.chat.id, "This is your first time using this bot!")
+
         RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
         # bot.send_message(message.chat.id, IPOScraper.ipo_scraper())
         response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
@@ -76,15 +78,15 @@ def fetch_ipo_details():
             return False
         else:
             return True
-    
-    #if message type by use is Docs <<comany name>> then send_docs runs
+         #if message type by use is Docs <<comany name>> then send_docs runs
     @bot.message_handler(func=doc_request)
     def send_docs(message):
         request = message.text.split()[1]
-        ##logic for getting links to red-herring prospectus
+        ##logic for getting links to red-herring prospectus shoud return no document if not available
         ##dummy message for testing
-        bot.send_message(message.chat.id , "dummy doc")
-
+        bot.send_message(message.chat.id , "dummy doc") 
+        
+    
 
     print('👂 Listening for messages')
     bot.polling()
