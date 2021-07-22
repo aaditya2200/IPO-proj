@@ -38,6 +38,7 @@ def fetch_ipo_details():
             bot.send_message(message.chat.id, data_str)
         # this gives you the data.
 
+    print('👂 Listening for messages')
     bot.polling()
 
     print('\n✅ Fetch IPO Details completed successfully')
