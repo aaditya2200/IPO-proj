@@ -1,28 +1,79 @@
-# import os
-# import telebot
-# from IPOscraper import IPOscraper
-# import urllib.request
-# import logging
-# import re
-#
-# #API_KEY = os.getenv('API_KEY')
-# API_KEY ="1925784175:AAGlfZh7q6vkxpNXdpHr9HaCv1QcTn7keM4"
-#
-# #Setting up logger
-# logger = telebot.logger
-# telebot.logger.setLevel(logging.DEBUG) # Outputs debug messages to console.
-#
-#
-# bot = telebot.TeleBot(API_KEY)
-# stocks = []
+import os
+import telebot
+from IPOscraper import IPOscraper
+import urllib.request
+import logging
+import re
+
+#API_KEY = os.getenv('API_KEY')
+API_KEY ="1925784175:AAGlfZh7q6vkxpNXdpHr9HaCv1QcTn7keM4"
+
+ #Setting up logger
+logger = telebot.logger
+telebot.logger.setLevel(logging.DEBUG) # Outputs debug messages to console.
+
+
+knownUsers = []  # todo: cn we store this in reddis?
+userStep = {}  # so they won't reset every time the bot restarts this can be removed when reading from db
+
+
+bot = telebot.TeleBot(API_KEY)
+stocks = []
 
 def main():
-    @bot.message_handler(commands=['start','help'])
+
+    commands = {  # command description used in the "help" command
+    'start'       : 'Get used to the bot',
+    'help'        : 'Gives you information about the available commands',
+    
+}
+    # error handling if user isn't known yet
+# (obsolete once known users are saved to file, because all users
+#   had to use the /start command and are therefore known to the bot)
+    def get_user_step(uid):
+        if uid in userStep:
+            return userStep[uid]
+        else:
+            knownUsers.append(uid)
+            userStep[uid] = 0
+            print("New user detected, who hasn't used \"/start\" yet")
+            return 0
+
+
+
+    
+    @bot.message_handler(commands=['start'])
     def send_welcome(message):
-        bot.send_message(message.chat.id, "Hello and welcome to the IPO Checker Bot! I will get the latest IPOs in your country and show it to you! ")
-        bot.send_message(message.chat.id,"These are the current active IPOs in India!")
+        cid = message.chat.id
+        if cid not in knownUsers:
+            knownUsers.append(cid) ##replace with reddis
+            userStep[cid ]= 0
+            bot.send_message(cid , "Hello New User!")
+            command_help(message)
+        else:
+            bot.send_message(cid ,"welcome back!")
+        bot.send_message(message.chat.id, "Welcome to the IPO Checker Bot! I will get the latest IPOs in your country and show it to you! ")
+        bot.send_message(message.chat.id,"These are the current active IPOs in India ->")
         bot.send_message(message.chat.id,str(IPOscraper()))
     
+
+
+    ##Help
+    @bot.message_handler(commands=['help'])
+    def command_help(m):
+        cid = m.chat.id
+        help_text = "The following commands are available: \n"
+        for key in commands:  # generate help text out of the commands dictionary defined at the top
+            help_text += "/" + key + ": "
+            help_text += commands[key] + "\n"
+        bot.send_message(cid, help_text)  # send the generated help page
+
+
+
+
+
+
+
     ## request for links to all docs regarding that IPO stored in db.
     """  def doc_request(message):
         request = message.text.split()
@@ -48,7 +99,6 @@ def main():
     def echo_all(message):
         bot.send_message(message.chat.id,message.text)
 
-    print("scrapping...")
     bot.polling()
 
 
