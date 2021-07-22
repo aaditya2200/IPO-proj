@@ -13,6 +13,7 @@ def fetch_ipo_details():
 
     @bot.message_handler(commands=['start', 'help'])
     def send_welcome(message):
+        print('✅ Received command from {}'. format(message.chat.id))
         bot.send_message(message.chat.id, GREET_MESSAGE)
         bot.send_message(message.chat.id, "This is your first time using this bot!")
         # bot.send_message(message.chat.id, IPOScraper.ipo_scraper())
