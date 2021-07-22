@@ -24,8 +24,6 @@ def fetch_ipo_details():
     @bot.message_handler(commands=['start'])
     def send_welcome(message):
         print('✅ Received command from {}'.format(message.chat.id))
-
-        bot.send_message(message.chat.id, GREET_MESSAGE)
         # Checking if new user or existing user ,data stored in Redis
         if RedisConf.check_if_exists(redis_client, str(message.chat.id), REDIS_HASHES['users']) == 1:
             bot.send_message(message.chat.id, GREET_MESSAGE)
@@ -33,6 +31,7 @@ def fetch_ipo_details():
             RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
             command_help(message)
         else:
+            print('{} is an existing user!'.format(message.chat.id))
             bot.send_message(message.chat.id, '✋✋ Welcome Back! \n')
             bot.send_message(message.chat.id, "To view commands: " + '/help \n Here are the current and upcoming IPOs')
 
@@ -115,5 +114,5 @@ def fetch_ipo_details():
     print('👂 Listening for messages')
     bot.polling()
 
-    print('\n✅  Interaction with User Completed Successfully')
+    print('\n✅ Successfully completed the task.')
     return
