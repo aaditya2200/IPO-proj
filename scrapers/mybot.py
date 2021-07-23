@@ -4,6 +4,7 @@ from core.constants import BOT_TOKEN, GREET_MESSAGE
 
 
 class MyBot:
+    
     @staticmethod
     def create_bot():
         bot = telebot.TeleBot(BOT_TOKEN)
