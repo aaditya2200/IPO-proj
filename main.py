@@ -1,4 +1,5 @@
 import sys
+from tasks.fetch_and_store_v2 import fetch_and_store_v2
 from tasks.fetch_ipo_details import fetch_ipo_details
 from tasks.notify import notify
 from tasks.get_market_sentiment import get_market_sentiment
@@ -31,6 +32,11 @@ available_commands = {
         'name': 'update_redis_hash',
         'help': '',
     },
+
+    'fetch_v2':{
+        'name' :  'fetch_v2',
+        'help': ''
+    }
 }
 
 
@@ -56,6 +62,9 @@ def main(argv):
         fetch_and_store()
     elif task_name == available_commands['update_redis_hash']['name']:
         update_redis_hash()
+    
+    elif task_name == available_commands['fetch_v2']['name']:
+        fetch_and_store_v2()
 
 if __name__ == '__main__':
     main(sys.argv[1:])
