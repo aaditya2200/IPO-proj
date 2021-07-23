@@ -110,6 +110,7 @@ def fetch_ipo_details():
 
     @bot.message_handler(commands=['list'])
     def ipo_list(message):
+        print('✅ Received command from {}'.format(message.chat.id))
         response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
         if response == 1:
             print('❌ Cannot fetch details from redis')
@@ -133,13 +134,14 @@ def fetch_ipo_details():
 
     @bot.message_handler(commands=['contribute'])
     def contribute(message):
+        print('✅ Received command from {}'.format(message.chat.id))
         bot.send_message(message.chat.id, 'If you would like to contribute to this project, please visit this link: '
                                           'https://github.com/aaditya2200/IPO-proj')
         bot.send_message(message.chat.id, '📦 📦 We welcome all contributions! Please make sure to fork the repo and '
                                           'make '
                                           'changes, you can raise as pull request once everything is done.')
         bot.send_message(message.chat.id, 'If there is anything we can change, let us know by sending an email. You '
-                                          'can find contact info in GitHub. 📧📨')
+                                          'can find contact info on GitHub. 📧📨')
 
     print('👂 Listening for messages')
     bot.polling()
