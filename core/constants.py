@@ -48,4 +48,6 @@ REDIS_HASHES = {
     'users': 'USERS',
     'notifications': 'NOTIFICATION'
 }
-DATA_STR = 'Issuer Company: {}\nExchange: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price In Rupees: {}\nIssue Price In Rupees (Cr.): {}'
+DATA_STR = 'Issuer Company: {}\nExchange: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price In Rupees: {}\nIssue ' \
+           'Price In Rupees (Cr.): {} '
+BROKER_URL = 'redis://127.0.0.1:6379/0'
