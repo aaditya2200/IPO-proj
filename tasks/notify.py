@@ -32,7 +32,7 @@ def notify():
     for i in range(len(data)):
         item = data[i]
         today, date = return_as_datetime_object(item['Open'])
-        if date == today:
+        if today < date:
             data_str = DATA_STR.format(
                 item['Issuer Company'],
                 item['Exchange'],

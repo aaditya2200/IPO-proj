@@ -9,7 +9,7 @@ def task_scheduler():
     notify()
 
 
-schedule.every().day.at("21:48").do(task_scheduler)
+schedule.every().day.at("11:06").do(task_scheduler)
 
 while True:
     schedule.run_pending()
