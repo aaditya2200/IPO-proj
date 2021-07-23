@@ -247,12 +247,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.mybot" />
+      <item itemvalue="Python.fetch_and_store" />
       <item itemvalue="Python.fetch_ipo_details" />
+      <item itemvalue="Python.mybot" />
       <item itemvalue="Python.notify" />
       <item itemvalue="Python.tasks" />
       <item itemvalue="Python.update_redis_hash" />
-      <item itemvalue="Python.fetch_and_store" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
