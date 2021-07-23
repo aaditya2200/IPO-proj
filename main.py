@@ -32,6 +32,11 @@ available_commands = {
         'name': 'update_redis_hash',
         'help': '',
     },
+
+    'fetch_v2':{
+        'name' :  'fetch_v2',
+        'help': ''
+    }
 }
 
 
