@@ -6,11 +6,10 @@ name = "pypi"
 [packages]
 redis = "*"
 bs4 = "*"
-requests = "*"
-pytelegrambotapi = "*"
 numpy = "*"
 celery = "*"
 schedule = "*"
+
 [dev-packages]
 
 [requires]
