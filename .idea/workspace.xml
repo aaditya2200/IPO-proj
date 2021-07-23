@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ea93101-e560-4871-8eae-517635f1f773" name="Default Changelist" comment="" />
+    <list default="true" id="2ea93101-e560-4871-8eae-517635f1f773" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/celery_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/celery_scheduler.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -245,12 +247,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.fetch_and_store" />
-      <item itemvalue="Python.fetch_ipo_details" />
       <item itemvalue="Python.mybot" />
+      <item itemvalue="Python.fetch_ipo_details" />
       <item itemvalue="Python.notify" />
       <item itemvalue="Python.tasks" />
       <item itemvalue="Python.update_redis_hash" />
+      <item itemvalue="Python.fetch_and_store" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
