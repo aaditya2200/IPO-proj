@@ -10,11 +10,10 @@ def fetch_ipo_details():
     # command description used in the "help" command
     commands = {
         '/start': 'Get used to the bot\n',
-        '/help': 'Lookup  available commands \n',
-        'Docs CompanyName ': 'Gives red herring prospectus and other documentation if issued for "Company Name" \n',
-        'Subscribe CompanyName': '<alpha version> allows you to get notifications regarding events in the IPOs '
-                                 'timeline \n',
-        '/Subscriptions': '<alpha> Show all companies you have subscribed to\n'
+        '/help': 'Lookup available commands \n',
+        '/notify': 'Opt for notifications on new IPOs\n',
+        '/list': 'List all IPOs\n',
+        '/contribute': 'Contribute to this project!\n'
     }
 
     # start the bot
@@ -28,35 +27,18 @@ def fetch_ipo_details():
         if RedisConf.check_if_exists(redis_client, str(message.chat.id), REDIS_HASHES['users']) == 1:
             bot.send_message(message.chat.id, GREET_MESSAGE)
             bot.send_message(message.chat.id, "This is your first time using this bot!")
-            bot.send_message(message.chat.id, 'If you want to be notified whenever a new IPO is available, use the command `/notify`')
+            bot.send_message(message.chat.id, 'If you want to be notified whenever a new IPO is available, use the '
+                                              'command `/notify`')
+            bot.send_message(message.chat.id, '🖊 If you would like to see all IPOs, run the command /list')
             RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
             command_help(message)
         else:
             print('{} is an existing user!'.format(message.chat.id))
             bot.send_message(message.chat.id, '✋✋ Welcome Back! \n')
-            bot.send_message(message.chat.id, "To view commands: " + '/help \n Here are the current and upcoming IPOs')
+            bot.send_message(message.chat.id, "To view commands, run " + '/help')
+            bot.send_message(message.chat.id, '🖊 If you would like to see all IPOs, run the command /list')
 
         # bot.send_message(message.chat.id, IPOScraper.ipo_scraper())
-        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
-        if response == 1:
-            print('❌ Cannot fetch details from redis')
-            return
-        if not data:
-            print('❌ Cannot fetch details from redis')
-            return
-
-        for i in range(len(data)):
-            item = data[i]
-            data_str = DATA_STR.format(
-                item['Issuer Company'],
-                item['Exchange'],
-                item['Open'],
-                item['Close'],
-                item['Lot Size'],
-                item['Issue Price (Rs)'],
-                item['Issue Price (Rs. Cr.)']
-            )
-            bot.send_message(message.chat.id, data_str)
         # this gives you the data.
 
     # Help
@@ -105,7 +87,8 @@ def fetch_ipo_details():
         # logic
         # dummy message for testing
         bot.send_message(message.chat.id,
-                         "you have subscribed to " + request) + "\n You will now recieve notifcations when events take place"
+                         "you have subscribed to " + request) + "\n You will now recieve notifcations when events " \
+                                                                "take place "
         # if we cant do subscription then atleast we need to show the timeline for that IPO ,ill look into it"
 
     @bot.message_handler(commands=['Subscriptions'])
@@ -125,6 +108,38 @@ def fetch_ipo_details():
             RedisConf.store_in_redis(redis_client, str(message_id), str(message_id), REDIS_HASHES['notifications'])
             bot.send_message(message_id, 'Congratulations! 👏 You will now be notified whenever a new IPO is available!')
 
+    @bot.message_handler(commands=['list'])
+    def ipo_list(message):
+        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
+        if response == 1:
+            print('❌ Cannot fetch details from redis')
+            return
+        if not data:
+            print('❌ Cannot fetch details from redis')
+            return
+
+        for i in range(len(data)):
+            item = data[i]
+            data_str = DATA_STR.format(
+                item['Issuer Company'],
+                item['Exchange'],
+                item['Open'],
+                item['Close'],
+                item['Lot Size'],
+                item['Issue Price (Rs)'],
+                item['Issue Price (Rs. Cr.)']
+            )
+            bot.send_message(message.chat.id, data_str)
+
+    @bot.message_handler(commands=['contribute'])
+    def contribute(message):
+        bot.send_message(message.chat.id, 'If you would like to contribute to this project, please visit this link: '
+                                          'https://github.com/aaditya2200/IPO-proj')
+        bot.send_message(message.chat.id, '📦 📦 We welcome all contributions! Please make sure to fork the repo and '
+                                          'make '
+                                          'changes, you can raise as pull request once everything is done.')
+        bot.send_message(message.chat.id, 'If there is anything we can change, let us know by sending an email. You '
+                                          'can find contact info in GitHub. 📧📨')
 
     print('👂 Listening for messages')
     bot.polling()

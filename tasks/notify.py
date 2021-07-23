@@ -3,9 +3,9 @@
 
 """
 from core.constants import REDIS_HASHES, DATA_STR
-from scrapers.mybot import MyBot
-from redis_conf import RedisConf
 from core.utils import return_as_datetime_object
+from redis_conf import RedisConf
+from scrapers.mybot import MyBot
 
 
 def notify():
@@ -43,9 +43,9 @@ def notify():
                 item['Issue Price (Rs. Cr.)']
             )
             for m_id in users_list:
-                if print_count == 0:
-                    bot.send_message(m_id, '📈 Here are some IPOs that were listed today! If you want all listings,'
-                                         ' please run /start')
+                bot.send_message(m_id, '📈 Here are some IPOs that were listed today! If you want all listings,'
+                                       ' please run /start')
+            for m_id in users_list:
                 bot.send_message(m_id, data_str)
     # print('✅ Notified {} users successfully'.format(len(users_list)))
     return
