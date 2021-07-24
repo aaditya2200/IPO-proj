@@ -18,6 +18,7 @@ jobs:
             pipenv install schedule
             pipenv install celery
             pipenv install pyTelegramBotAPI
+            pipenv install requests
       - run:
           name: Fetch details
           command: python3 main.py fetch_and_store
