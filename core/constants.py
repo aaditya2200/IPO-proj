@@ -44,6 +44,7 @@ BOT_DEV_NAME = "IPO_local_bot"
 
 REDIS_HASHES = {
     'current_ipo_details': 'CURRENT_IPO_DETAILS',
+    'ipo_details_v2' : 'IPO_DETAILS_V2',
     'closed_ipo_details': 'CLOSED_IPO_DETAILS',
     'users': 'USERS',
     'notifications': 'NOTIFICATION'

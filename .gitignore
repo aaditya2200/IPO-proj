@@ -1,0 +1,15 @@
+#Byte-compiled /optimized files
+__pycache__/
+
+core/__pycache__/
+scrapers/__pycache__/
+tasks/__pycache__/
+
+#cache extension
+.pyc 
+.pyo
+
+#environment vars
+
+.env 
+
