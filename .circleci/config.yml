@@ -2,10 +2,8 @@ version: 1
 jobs:
   build:
     working_directory: ~/ipo-proj
-    docker:
-      - image: cimg/python:3.9.6
-        environment:
-          PIPENV_VENV_IN_PROJECT: 'true'
+    machine:
+      image: ubuntu-1604:202104-01
     steps:
       - checkout
       - run:
