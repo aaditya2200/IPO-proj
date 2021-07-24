@@ -1,0 +1,27 @@
+version: 1
+jobs:
+  build:
+    working_directory: ~/ipo-proj
+    docker:
+      - image: cimg/python:3.9.6
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+      - image: cimg/redis:6.2.3
+      steps:
+        - checkout
+        - run:
+            command: |
+              python3 -m pip install pipenv
+              pipenv shell
+              pipenv install bs4
+              pipenv install redis
+              pipenv install numpy
+              pipenv install schedule
+              pipenv install celery
+              pipenv install pyTelegramBotAPI
+        - run:
+            name: Fetch details
+            command: python3 main.py fetch_and_store
+        - run:
+            name: Start server
+            command: python3 main.py fetch_ipo_details
