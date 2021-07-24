@@ -36,7 +36,7 @@ class RedisConf:
         """
         if not hash_name or not r_client:
             return 1
-        response = r_client.hset(hash_name, key, value)
+        response = r_client.hset(hash_name, key, value) 
         if response:
             return 0
         else:
