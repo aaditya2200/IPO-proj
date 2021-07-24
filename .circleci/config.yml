@@ -12,7 +12,6 @@ jobs:
           command: |
             python3 -m pip install pipenv
             pip install redis-server
-            pipenv shell
             pipenv install bs4
             pipenv install redis
             pipenv install numpy
