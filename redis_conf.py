@@ -16,7 +16,7 @@ class RedisConf:
         port = os.getenv('redis_port')
         # password = os.getenv('redis_password')
         r_client = redis.Redis(
-            host='localhost' or host,
+            host='docker.for.mac.localhost' or host,
             port=6379 or port,
             decode_responses=decode_responses,
             password=''
