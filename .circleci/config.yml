@@ -5,8 +5,8 @@ jobs:
     docker:
       - image: cimg/python:3.9.6
         environment:
-          PIPENV_VENV_IN_PROJECT: true
-      - image: cimg/redis:6.2.3
+          PIPENV_VENV_IN_PROJECT: 'true'
+      - image: cimg/redis:latest
     steps:
       - checkout
       - run:
