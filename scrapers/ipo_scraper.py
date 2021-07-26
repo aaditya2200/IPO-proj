@@ -49,7 +49,7 @@ class IPOScraper:
             values_dict = {
                 'Issuer Company': row[0],
                 'Exchange': row[1],
-                'Open': row[2],
+                'Open ': row[2],
                 'Close': row[3],
                 'Lot Size': row[4],
                 'Issue Price (Rs)': row[5],

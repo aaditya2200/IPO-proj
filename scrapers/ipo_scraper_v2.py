@@ -5,8 +5,8 @@ import re
 from bs4 import BeautifulSoup
 
 
-from core.constants import USER_AGENT_LIST
-#from redis_conf import RedisConf
+from core.constants import USER_AGENT_LIST,REDIS_HASHES
+from redis_conf import RedisConf
 
 URL = "https://investorzone.in/ipo/"
 
@@ -27,7 +27,7 @@ class IPOScraperv2:
             'class': 'table-fill-1 table-fill font-setting'})
         data = IPOScraperv2.table_data_text(html_table)
         #we can write logic so that it only takes current and future IPO for reddis as we dont really need older ones? idk
-        return(data[:3])
+        IPOScraperv2.store_in_redis(data[2:])
 
     @staticmethod
     def table_data_text(table):
@@ -45,11 +45,11 @@ class IPOScraperv2:
             rows.append(row_get_data_text(tr, 'td'))  # data row
         return rows
         
-        
-
+    
     ## LOGIC for going through comapny names and running RHP_scraper will come here.
     #===========================================================================#
-    
+    def scrapeRHP():
+        
     
     @staticmethod
     def RHP_scraper(companyName):
@@ -76,6 +76,41 @@ class IPOScraperv2:
                 links.append(a)
                 
         return links
+
+
+
+    
+    @staticmethod
+    def store_in_redis(data):
+        today = datetime.today()
+        redis_client = RedisConf.create_connection_to_redis_server(True)
+        for row in data:
+            values_dict = {
+                'Issuer Company': row[0],
+                'Open': row[1],
+                'Close': row[2],
+                'Lot Size': row[3],
+                'Issue Price ': row[4],
+                'Cost of 1 lot': row[5]
+            }
+            try:
+                ipo_closing_date = datetime.strptime(row[3], '%b %d, %Y')
+            except Exception as e:
+                print('❌ Invalid date format: ', e)
+                return
+            if ipo_closing_date > today:
+                hash_name = REDIS_HASHES['ipo_details_v2']
+            else:
+                hash_name = REDIS_HASHES['closed_ipo_details']
+            value_json = json.dumps(values_dict)
+            key = row[0]
+            RedisConf.store_in_redis(
+                r_client=redis_client,
+                hash_name=hash_name,
+                key=key,
+                value=value_json
+            )   
+
 
 
 
