@@ -2,6 +2,7 @@
 import random
 import requests
 import re
+from datetime import datetime
 from bs4 import BeautifulSoup
 
 
@@ -9,6 +10,12 @@ from core.constants import USER_AGENT_LIST,REDIS_HASHES
 from redis_conf import RedisConf
 
 URL = "https://investorzone.in/ipo/"
+
+
+##ToDO 
+## fix date issue
+## get more information from company pages
+
 
 class IPOScraperv2:
     @staticmethod
@@ -27,7 +34,8 @@ class IPOScraperv2:
             'class': 'table-fill-1 table-fill font-setting'})
         data = IPOScraperv2.table_data_text(html_table)
         #we can write logic so that it only takes current and future IPO for reddis as we dont really need older ones? idk
-        IPOScraperv2.store_in_redis(data[2:])
+        #IPOScraperv2.store_in_redis(data[2:])
+        print(data[2:4])
 
     @staticmethod
     def table_data_text(table):
@@ -48,15 +56,17 @@ class IPOScraperv2:
     
     ## LOGIC for going through comapny names and running RHP_scraper will come here.
     #===========================================================================#
-    def scrapeRHP():
+    def scrapeCompanypage(data):
+        data = IPOScraperv2.table_data_text(html_table)
         
+
     
     @staticmethod
     def RHP_scraper(companyName):
         # Right now only printing string of RHP url #saving document feasibility not studied yet
         companyName = companyName.replace(" ","-")
         DRHP_URL = "https://investorzone.in/ipo/" + companyName +"/"
-        page = requests.get(URL, header)
+        page = requests.get(DRHP_URL, header)
         soup = BeautifulSoup(page.text, 'html.parser')
 
         buttons = soup,findAll('div',{'class' : 'button-link'})
@@ -75,7 +85,7 @@ class IPOScraperv2:
             else:
                 links.append(a)
                 
-        return links
+        return str(links[2])
 
 
 
@@ -85,16 +95,22 @@ class IPOScraperv2:
         today = datetime.today()
         redis_client = RedisConf.create_connection_to_redis_server(True)
         for row in data:
+            companyRHP = RHP_scraper(row[0])
             values_dict = {
                 'Issuer Company': row[0],
                 'Open': row[1],
                 'Close': row[2],
                 'Lot Size': row[3],
                 'Issue Price ': row[4],
-                'Cost of 1 lot': row[5]
+                'Cost of 1 lot': row[5],
+                'Red Herring Prosepectus' : companyRHP
             }
+
+
             try:
-                ipo_closing_date = datetime.strptime(row[3], '%b %d, %Y')
+                ## doesnt work in v2 as date format is %d %b 2digit year.
+                ipo_closing_date = datetime.strptime(row[2], '%d %b %Y')
+
             except Exception as e:
                 print('❌ Invalid date format: ', e)
                 return

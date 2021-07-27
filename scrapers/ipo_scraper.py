@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from core.constants import URL, USER_AGENT_LIST, REDIS_HASHES
 from redis_conf import RedisConf
 
-
+#This scraper is getting deprecated , but will be kept in storage ,in case investorzone blocks webscrapers .
 class IPOScraper:
     @staticmethod
     def get_request_headers():
@@ -47,13 +47,13 @@ class IPOScraper:
         redis_client = RedisConf.create_connection_to_redis_server(True)
         for row in data:
             values_dict = {
-                'Issuer Company': row[0],
+                'Company': row[0],
                 'Exchange': row[1],
                 'Open ': row[2],
                 'Close': row[3],
                 'Lot Size': row[4],
                 'Issue Price (Rs)': row[5],
-                'Issue Price (Rs. Cr.)': row[6]
+                'Issue Price (Rs. Cr.)': row[6],
             }
             try:
                 ipo_closing_date = datetime.strptime(row[3], '%b %d, %Y')
