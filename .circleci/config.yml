@@ -25,4 +25,4 @@ jobs:
           command: python3 main.py fetch_and_store
       - run:
           name: Start server
-          command: python3 main.py fetch_ipo_detail
+          command: python3 main.py fetch_ipo_details
