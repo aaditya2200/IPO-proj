@@ -43,11 +43,3 @@ jobs:
           at: .
       - checkout
       - run: aws s3 sync ./app/build s3://ipo-bot
-
-workflows:
-  build-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
