@@ -8,10 +8,6 @@ jobs:
       - checkout
       - run:
           command: |
-            sudo apt-get update
-            sudo apt install python3-pip
-            pip install --upgrade setuptools
-            pip install --upgrade pip
             python3 -m pip install pipenv
             alias python3=python3.9
             sudo apt update
@@ -35,11 +31,3 @@ jobs:
           root: .
           paths:
             - .
-  deploy:
-    machine:
-      image: ubuntu-1604:202104-01
-    steps:
-      - attach_workspace:
-          at: .
-      - checkout
-      - run: aws s3 sync ./app/build s3://ipo-bot
