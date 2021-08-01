@@ -1,4 +1,4 @@
-version: 1
+version: 2
 jobs:
   build:
     working_directory: ~/ipo-proj
@@ -22,10 +22,10 @@ jobs:
             python3 -m pip install requests
       - run:
           name: Fetch details
-          command: python3 main.py fetch_and_store
+          command: python3 main.py fetch_v2
       - run:
           name: Start server
-          command: python3 main.py fetch_ipo_details
+          command: nohup python3 main.py fetch_ipo_details &
       - persist_to_workspace:
           root: .
           paths:

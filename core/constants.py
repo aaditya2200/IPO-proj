@@ -40,16 +40,18 @@ BOT_TOKEN = "1925784175:AAGlfZh7q6vkxpNXdpHr9HaCv1QcTn7keM4"
 
 GREET_MESSAGE = "✋ Hello and welcome to the IPO Checker Bot! I will get the latest IPOs in your country and show it to you!"
 
-BOT_TOKEN_DEV ="1900768669:AAHVxjegWeHrZMibU2WKc9uKkR4dpto2wHE"
+BOT_TOKEN_DEV = "1900768669:AAHVxjegWeHrZMibU2WKc9uKkR4dpto2wHE"
 BOT_DEV_NAME = "IPO_local_bot"
 
 REDIS_HASHES = {
     'current_ipo_details': 'CURRENT_IPO_DETAILS',
-    'ipo_details_v2' : 'IPO_DETAILS_V2',
+    'ipo_details_v2': 'IPO_DETAILS_V2',
     'closed_ipo_details': 'CLOSED_IPO_DETAILS',
-    'closed_ipo_details_v2':'CLOSED_IPO_DETAILS_V2',
+    'closed_ipo_details_v2': 'CLOSED_IPO_DETAILS_V2',
     'users': 'USERS',
     'notifications': 'NOTIFICATION'
 }
-DATA_STR = 'Issuer Company: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price {}\n Cost of 1 lot: {}'
+DATA_STR = 'Issuer Company: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price {}\nCost of 1 lot: {}'
+V1_DATA_STR = 'Issuer Company: {}\nExchange: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price (Rs): {}\nIssue Price (' \
+              'Rs. Cr.): {}'
 BROKER_URL = 'redis://127.0.0.1:6379/0'
