@@ -75,23 +75,36 @@ def fetch_ipo_details():
         if not data:
             print('❌ Cannot fetch RHP details from redis')
             return
-        
-        request = message.text.split()[1:]
+
+        request = message.text.split()[1:][0]
         # logic for getting links to red-herring prospectus should return no document if not available
         # dummy message for testing
-    
-        if RedisConf.check_if_exists(redis_client,request, 'IPO_DETAILS_V2'):
-            print(f"company {request} Exists")
-            for key in data:
-                if  key['Issuer Company'] == request:
-                    bot.send_message(message.chat.id, key['Red Herring Prospectus'][1] )
-                
-                else:
-                    bot.send_message(message.chat.id,f"couldn't find RHP for {request}")
-        
-        else :
-            bot.send_message(message.chat.id , "Please Enter a valid company Name (Full as stated in \list )")
-    
+        found = False
+        for item in data:
+            company_name_list = [word.lower() for word in item['Issuer Company'].split()]
+            if request in company_name_list:
+                found = True
+                try:
+                    val = item['Red Herring Prospectus']
+                    bot.send_message(message.chat.id, val[2:-2])
+                except Exception as e:
+                    bot.send_message(message.chat.id, '❌ Could not find RHP details for this company.')
+                    print(e)
+            else:
+                continue
+            if not found:
+                print('❌ Could not find company.')
+        # if RedisConf.check_if_exists(redis_client, request, 'IPO_DETAILS_V2') == 0:
+        #     print('❌ Could not find company. ')
+        #     for key in data:
+        #         if key['Issuer Company'] == request:
+        #             bot.send_message(message.chat.id, key['Red Herring Prospectus'][1])
+        #
+        #         else:
+        #             bot.send_message(message.chat.id, '❌ Could not find RH Prospectus for {}'.format(request))
+        # else:
+        #     bot.send_message(message.chat.id, '❌ Please enter a valid company name (Full as stated in \list): ')
+
         # if we can send doc then we use bot.send_document else just a link
 
     # Subscriptions to IPO
@@ -128,7 +141,8 @@ def fetch_ipo_details():
                                          'there is one. ')
         elif RedisConf.check_if_exists(redis_client, str(message_id), REDIS_HASHES['users']) == 0:
             RedisConf.store_in_redis(redis_client, str(message_id), str(message_id), REDIS_HASHES['notifications'])
-            bot.send_message(message_id, 'Congratulations! 👏 You will now be notified whenever a new IPO is available!')
+            bot.send_message(message_id,
+                             'Congratulations! 👏 You will now be notified whenever a new IPO is available!')
 
     @bot.message_handler(commands=['list'])
     def ipo_list(message):
@@ -143,7 +157,7 @@ def fetch_ipo_details():
 
         for i in range(len(data)):
             item = data[i]
-            
+
             data_str = DATA_STR.format(
                 item['Issuer Company'],
                 item['Open'],
@@ -151,13 +165,11 @@ def fetch_ipo_details():
                 item['Lot Size'],
                 item['Issue Price'],
                 item['Cost of 1 lot'],
-                #item['Red Herring Prospectus']
+                # item['Red Herring Prospectus']
             )
 
-
             bot.send_message(message.chat.id, data_str)
-    
-    
+
     @bot.message_handler(commands=['contribute'])
     def contribute(message):
         print('✅ Received command from {}'.format(message.chat.id))
@@ -165,7 +177,8 @@ def fetch_ipo_details():
                                           'https://github.com/aaditya2200/IPO-proj')
         bot.send_message(message.chat.id, 'If there is anything we can change, let us know by sending an email. You '
                                           'can find contact info on GitHub. 📧📨')
-        bot.send_message(message.chat.id, 'You can also contribute towards the server costs and maintenance , by becoming a sponsor')
+        bot.send_message(message.chat.id,
+                         'You can also contribute towards the server costs and maintenance , by becoming a sponsor')
 
     print('👂 Listening for messages')
     bot.polling()
