@@ -192,11 +192,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/aaditya2200/IPO-proje/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/aaditya2200/IPO-proj?style=flat-square
+[forks-shield]: https://img.shields.io/github/forks/aaditya2200/IPO-proj?style=flat-square?style=for-the-badge
 [forks-url]: https://github.com/aaditya2200/IPO-proj/network/members
-[stars-shield]: https://img.shields.io/github/stars/aaditya2200/IPO-proj?style=flat-square
+[stars-shield]: https://img.shields.io/github/stars/aaditya2200/IPO-proj?style=flat-square?style=for-the-badge
 [stars-url]: https://github.com/aaditya2200/IPO-proj/stargazers
-[issues-shield]: https://img.shields.io/github/issues/aaditya2200/IPO-proj?style=flat-square
+[issues-shield]: https://img.shields.io/github/issues/aaditya2200/IPO-proj?style=flat-square?style=for-the-badge
 [issues-url]: https://github.com/aaditya2200/IPO-proj/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/aaditya2200/IPO-proj/blob/master/LICENSE.txt
