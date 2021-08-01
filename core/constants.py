@@ -51,5 +51,5 @@ REDIS_HASHES = {
     'users': 'USERS',
     'notifications': 'NOTIFICATION'
 }
-DATA_STR = 'Issuer Company: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price {}\n Cost of 1 lot: {}'
+DATA_STR = 'Issuer Company: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price {}\nCost of 1 lot: {}'
 BROKER_URL = 'redis://127.0.0.1:6379/0'
