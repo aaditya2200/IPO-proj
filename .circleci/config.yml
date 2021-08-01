@@ -25,7 +25,7 @@ jobs:
           command: python3 main.py fetch_v2
       - run:
           name: Start server
-          command: nohup python3 main.py fetch_ipo_details
+          command: nohup python3 main.py fetch_ipo_details &
       - persist_to_workspace:
           root: .
           paths:
