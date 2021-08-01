@@ -1,7 +1,7 @@
 """
     This file contains the code for the task that gets details of an IPO.
 """
-from core.constants import GREET_MESSAGE, REDIS_HASHES, DATA_STR
+from core.constants import GREET_MESSAGE, REDIS_HASHES, DATA_STR, V1_DATA_STR
 from redis_conf import RedisConf
 from scrapers.mybot import MyBot
 
@@ -12,6 +12,7 @@ def fetch_ipo_details():
         '/start': 'Get used to the bot\n',
         '/help': 'Lookup available commands \n',
         '/list': 'List all IPOs\n',
+        '/list_v1': 'List IPOs which do not have an RHP doc',
         '/contribute': 'Contribute to this project!\n',
         '/rhp': 'Use this command along with the company name. For example, /rhp zomato. You will receive the RHP '
                 'documents related to that IPO. '
@@ -83,7 +84,7 @@ def fetch_ipo_details():
         found = False
         for item in data:
             company_name_list = [word.lower() for word in item['Issuer Company'].split()]
-            if request in company_name_list:
+            if request in company_name_list or request == item['Issuer Company']:
                 found = True
                 try:
                     val = item['Red Herring Prospectus']
@@ -180,6 +181,30 @@ def fetch_ipo_details():
                                           'can find contact info on GitHub. 📧📨')
         bot.send_message(message.chat.id,
                          'You can also contribute towards the server costs and maintenance , by becoming a sponsor')
+
+    @bot.message_handler(commands=['list_v1'])
+    def list_all(message):
+        print('✅ Received command from {}'.format(message.chat.id))
+        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
+        if response == 1:
+            print('❌ Cannot fetch details from redis')
+            return
+        if not data:
+            print('❌ Cannot fetch details from redis')
+            return
+        for i in range(len(data)):
+            item = data[i]
+            data_str = V1_DATA_STR.format(
+                item['Issuer Company'],
+                item['Exchange'],
+                item['Open'],
+                item['Close'],
+                item['Lot Size'],
+                item['Issue Price (Rs)'],
+                item['Issue Price (Rs. Cr.)']
+            )
+            bot.send_message(message.chat.id, data_str)
+
 
     print('👂 Listening for messages')
     bot.polling()
