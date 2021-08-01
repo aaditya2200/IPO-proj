@@ -29,14 +29,14 @@ def fetch_ipo_details():
             bot.send_message(message.chat.id, "This is your first time using this bot!")
             bot.send_message(message.chat.id, 'If you want to be notified whenever a new IPO is available, use the '
                                               'command `/notify`')
-            bot.send_message(message.chat.id, '🖊 If you would like to see all IPOs, run the command /list')
+            bot.send_message(message.chat.id, '🖊 If you would like to see all IPOs, run /list')
             RedisConf.store_in_redis(redis_client, str(message.chat.id), str(message.chat.id), REDIS_HASHES['users'])
             command_help(message)
         else:
             print('{} is an existing user!'.format(message.chat.id))
             bot.send_message(message.chat.id, '✋✋ Welcome Back! \n')
             bot.send_message(message.chat.id, "To view commands, run " + '/help')
-            bot.send_message(message.chat.id, '🖊 If you would like to see all IPOs, run the command /list')
+            bot.send_message(message.chat.id, '🖊 If you would like to see current and upcoming IPOs, run /list')
 
         # bot.send_message(message.chat.id, IPOScraper.ipo_scraper())
         # this gives you the data.
@@ -58,7 +58,7 @@ def fetch_ipo_details():
     # def doc_req takes a message like so: Docs Zomato instead of /docs ...
     def doc_request(message):
         request = message.text.split()
-        if len(request) < 2 and request[0].lower() not in "Docs":
+        if len(request) < 2 and request[0].lower() not in "RHP":
             return False
         else:
             return True
@@ -66,10 +66,32 @@ def fetch_ipo_details():
 
     @bot.message_handler(func=doc_request)
     def send_docs(message):
-        request = message.text.split()[1]
+        ##connect to redis hash
+        print('✅ Received command for RHP from {}'.format(message.chat.id))
+        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['ipo_details_v2'])
+        if response == 1:
+            print('❌ Cannot fetch RHP details from redis')
+            return
+        if not data:
+            print('❌ Cannot fetch RHP details from redis')
+            return
+        
+        request = message.text.split()[1:]
         # logic for getting links to red-herring prospectus should return no document if not available
         # dummy message for testing
-        bot.send_message(message.chat.id, "dummy doc :" + request)
+    
+        if RedisConf.check_if_exists(redis_client,request, 'IPO_DETAILS_V2'):
+            print(f"company {request} Exists")
+            for key in data:
+                if  key['Issuer Company'] == request:
+                    bot.send_message(message.chat.id, key['Red Herring Prospectus'][1] )
+                
+                else:
+                    bot.send_message(message.chat.id,f"couldn't find RHP for {request}")
+        
+        else :
+            bot.send_message(message.chat.id , "Please Enter a valid company Name (Full as stated in \list )")
+    
         # if we can send doc then we use bot.send_document else just a link
 
     # Subscriptions to IPO
@@ -87,7 +109,7 @@ def fetch_ipo_details():
         # logic
         # dummy message for testing
         bot.send_message(message.chat.id,
-                         "you have subscribed to " + request) + "\n You will now recieve notifcations when events " \
+                         f"you have subscribed to {request}") + "\n You will now recieve notifcations when events " \
                                                                 "take place "
         # if we cant do subscription then atleast we need to show the timeline for that IPO ,ill look into it"
 
@@ -111,7 +133,7 @@ def fetch_ipo_details():
     @bot.message_handler(commands=['list'])
     def ipo_list(message):
         print('✅ Received command from {}'.format(message.chat.id))
-        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['current_ipo_details'])
+        response, data = RedisConf.read_from_redis(r_client=redis_client, hash_name=REDIS_HASHES['ipo_details_v2'])
         if response == 1:
             print('❌ Cannot fetch details from redis')
             return
@@ -121,27 +143,29 @@ def fetch_ipo_details():
 
         for i in range(len(data)):
             item = data[i]
+            
             data_str = DATA_STR.format(
                 item['Issuer Company'],
-                item['Exchange'],
                 item['Open'],
                 item['Close'],
                 item['Lot Size'],
-                item['Issue Price (Rs)'],
-                item['Issue Price (Rs. Cr.)']
+                item['Issue Price'],
+                item['Cost of 1 lot'],
+                #item['Red Herring Prospectus']
             )
-            bot.send_message(message.chat.id, data_str)
 
+
+            bot.send_message(message.chat.id, data_str)
+    
+    
     @bot.message_handler(commands=['contribute'])
     def contribute(message):
         print('✅ Received command from {}'.format(message.chat.id))
         bot.send_message(message.chat.id, 'If you would like to contribute to this project, please visit this link: '
                                           'https://github.com/aaditya2200/IPO-proj')
-        bot.send_message(message.chat.id, '📦 📦 We welcome all contributions! Please make sure to fork the repo and '
-                                          'make '
-                                          'changes, you can raise as pull request once everything is done.')
         bot.send_message(message.chat.id, 'If there is anything we can change, let us know by sending an email. You '
                                           'can find contact info on GitHub. 📧📨')
+        bot.send_message(message.chat.id, 'You can also contribute towards the server costs and maintenance , by becoming a sponsor')
 
     print('👂 Listening for messages')
     bot.polling()
