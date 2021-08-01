@@ -11,9 +11,10 @@ def fetch_ipo_details():
     commands = {
         '/start': 'Get used to the bot\n',
         '/help': 'Lookup available commands \n',
-        '/notify': 'Opt for notifications on new IPOs\n',
         '/list': 'List all IPOs\n',
-        '/contribute': 'Contribute to this project!\n'
+        '/contribute': 'Contribute to this project!\n',
+        '/rhp': 'Use this command along with the company name. For example, /rhp zomato. You will receive the RHP '
+                'documents related to that IPO. '
     }
 
     # start the bot
