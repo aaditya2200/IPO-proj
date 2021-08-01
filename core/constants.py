@@ -40,8 +40,8 @@ BOT_TOKEN = "1925784175:AAGlfZh7q6vkxpNXdpHr9HaCv1QcTn7keM4"
 
 GREET_MESSAGE = "✋ Hello and welcome to the IPO Checker Bot! I will get the latest IPOs in your country and show it to you!"
 
-BOT_TOKEN_DEV = "1900768669:AAHVxjegWeHrZMibU2WKc9uKkR4dpto2wHE"
-BOT_DEV_NAME = "IPO_local_bot"
+BOT_TOKEN_DEV = "1918485342:AAF7DQc9IkfUzp85c2Cr8ySEnPh-Bk3mEJQ"
+BOT_DEV_NAME = "oneIPO"
 
 REDIS_HASHES = {
     'current_ipo_details': 'CURRENT_IPO_DETAILS',
