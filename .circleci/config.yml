@@ -25,7 +25,7 @@ jobs:
           command: python3 main.py fetch_and_store
       - run:
           name: Start server
-          command: python3 main.py fetch_ipo_details
+          command: python3 main.py fetch_v2
       - persist_to_workspace:
           root: .
           paths:
