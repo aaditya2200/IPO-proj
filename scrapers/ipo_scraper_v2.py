@@ -3,7 +3,7 @@ import requests
 import json
 from datetime import datetime
 from bs4 import BeautifulSoup
-
+from core.utils import convert_date_to_required_format
 from core.constants import USER_AGENT_LIST, REDIS_HASHES,URLv2
 from redis_conf import RedisConf
 
@@ -91,33 +91,32 @@ class IPOScraperv2:
         redis_client = RedisConf.create_connection_to_redis_server(True)
         for row in data:
             companyRHP = IPOScraperv2.RHP_scraper(row[0])
-            values_dict = {
-                'Issuer Company': row[0],
-                'Open': row[1],
-                'Close': row[2],
-                'Lot Size': row[3],
-                'Issue Price': row[4],
-                'Cost of 1 lot': row[5],
-                'Red Herring Prospectus': companyRHP
-            }
-
             try:
-                row[1] = row[1][0:7] + str(datetime.today().year)
-                row[2] = row[2][0:7] + str(datetime.today().year)
-                ipo_closing_date = datetime.strptime(row[2], '%d %b %Y')
+                row[1] = convert_date_to_required_format(row[1])
+                row[2] = convert_date_to_required_format(row[2])
+                values_dict = {
+                    'Issuer Company': row[0],
+                    'Open': row[1],
+                    'Close': row[2],
+                    'Lot Size': row[3],
+                    'Issue Price': row[4],
+                    'Cost of 1 lot': row[5],
+                    'Red Herring Prospectus': companyRHP
+                }
 
+                ipo_closing_date = datetime.strptime(row[2], '%d %b %Y')
+                if ipo_closing_date > today:
+                    hash_name = REDIS_HASHES['ipo_details_v2']
+                else:
+                    hash_name = REDIS_HASHES['closed_ipo_details_v2']
+                value_json = json.dumps(values_dict)
+                key = row[0]
+                RedisConf.store_in_redis(
+                    r_client=redis_client,
+                    hash_name=hash_name,
+                    key=key,
+                    value=value_json
+                )
             except Exception as e:
                 print('❌ Invalid date format: ', e)
                 return
-            if ipo_closing_date > today:
-                hash_name = REDIS_HASHES['ipo_details_v2']
-            else:
-                hash_name = REDIS_HASHES['closed_ipo_details_v2']
-            value_json = json.dumps(values_dict)
-            key = row[0]
-            RedisConf.store_in_redis(
-                r_client=redis_client,
-                hash_name=hash_name,
-                key=key,
-                value=value_json
-            )

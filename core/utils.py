@@ -15,3 +15,8 @@ def return_as_datetime_object(date):
     except Exception as e:
         print('❌ Encountered exception ', e)
     return datetime.today(), ipo_closing_date
+
+
+def convert_date_to_required_format(date):
+    date = date[0:7] + str(datetime.today().year)
+    return date

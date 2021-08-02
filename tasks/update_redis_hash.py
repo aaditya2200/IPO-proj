@@ -23,6 +23,6 @@ def update_redis_hash(hash_name='current_ipo_details'):
             if len(item['Lot Size']) == 0 or len([item['Issue Price (Rs)']]) == 0:
                 RedisConf.delete_from_hash(redis_client, hash_name, item['Issuer Company'])
         except Exception as e:
-            print('❌ Exception: ',e)
+            print('❌ Exception: ', e)
     print('✅ Successfully completed update_redis_hash task.')
     return
