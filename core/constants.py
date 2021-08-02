@@ -36,7 +36,7 @@ USER_AGENT_LIST = [
 
 URL = "https://www.chittorgarh.com/report/ipo-in-india-list-main-board-sme/82/"
 URLv2 = "https://investorzone.in/ipo/"
-BOT_TOKEN = "1925784175:AAGlfZh7q6vkxpNXdpHr9HaCv1QcTn7keM4"
+BOT_TOKEN = '1918485342:AAF7DQc9IkfUzp85c2Cr8ySEnPh-Bk3mEJQ'
 
 GREET_MESSAGE = "✋ Hello and welcome to the IPO Checker Bot! I will get the latest IPOs in your country and show it to you!"
 
