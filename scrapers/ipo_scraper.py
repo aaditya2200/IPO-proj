@@ -47,9 +47,9 @@ class IPOScraper:
         redis_client = RedisConf.create_connection_to_redis_server(True)
         for row in data:
             values_dict = {
-                'Company': row[0],
+                'Issuer Company': row[0],
                 'Exchange': row[1],
-                'Open ': row[2],
+                'Open': row[2],
                 'Close': row[3],
                 'Lot Size': row[4],
                 'Issue Price (Rs)': row[5],

@@ -102,7 +102,7 @@ class IPOScraperv2:
             }
 
             try:
-                
+                row[1] = row[1][0:7] + str(datetime.today().year)
                 row[2] = row[2][0:7] + str(datetime.today().year)
                 ipo_closing_date = datetime.strptime(row[2], '%d %b %Y')
 
