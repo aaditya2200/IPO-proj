@@ -1,6 +1,10 @@
 
 
 
+
+
+
+
 <!--
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
@@ -31,7 +35,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/aaditya2200/IPO-proj">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src= https://user-images.githubusercontent.com/22007192/128032739-e939aea3-7c6c-4c76-8691-d86ef3a6f665.png alt="Logo" width="160" height="160">
   </a>
 
   <h3 align="center">ONE IPO bot</h3>
@@ -81,7 +85,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-
+https://user-images.githubusercontent.com/22007192/128032228-08115b98-6a05-4008-8103-be932cf290d5.mov
 
 Telegram Bot that is all about :chart_with_upwards_trend: IPOs (Initial Public Offerings In India). Built in python
 
@@ -191,7 +195,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/aaditya2200/IPO-proje/graphs/contributors
+[contributors-url]: https://github.com/aaditya2200/IPO-proj/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/aaditya2200/IPO-proj?style=flat-square?style=for-the-badge
 [forks-url]: https://github.com/aaditya2200/IPO-proj/network/members
 [stars-shield]: https://img.shields.io/github/stars/aaditya2200/IPO-proj?style=flat-square?style=for-the-badge
