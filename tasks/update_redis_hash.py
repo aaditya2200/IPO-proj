@@ -1,7 +1,6 @@
 from redis_conf import RedisConf
 from core.utils import return_as_datetime_object
 
-
 def update_redis_hash(hash_name='current_ipo_details'):
     """
     This function will update our redis hashes, for example, if an IPO has expired, it will still remain

@@ -55,3 +55,4 @@ DATA_STR = 'Issuer Company: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price {
 V1_DATA_STR = 'Issuer Company: {}\nExchange: {}\nOpen: {}\nClose: {}\nLot Size: {}\nIssue Price (Rs): {}\nIssue Price (' \
               'Rs. Cr.): {}'
 BROKER_URL = 'redis://127.0.0.1:6379/0'
+PAYMENTS_LINK = 'https://rzp.io/i/GPZBQoopbn'
