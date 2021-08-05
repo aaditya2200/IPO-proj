@@ -3,7 +3,7 @@
 """
 import json
 
-from core.constants import GREET_MESSAGE, REDIS_HASHES, DATA_STR, V1_DATA_STR, PAYMENTS_LINK
+from core.constants import GREET_MESSAGE, REDIS_HASHES, DATA_STR, V1_DATA_STR, PAYMENTS_LINK, INFO_MESSAGE, CREATORS_LINK_1, CREATORS_LINK_2
 from redis_conf import RedisConf
 from scrapers.mybot import MyBot
 
@@ -19,7 +19,8 @@ def fetch_ipo_details():
                 'documents related to that IPO. \n',
         '/donate': 'Donate 100 rupees if you like this service, it aids in paying for cloud services.\n',
         '/contribute': 'Contribute to this project!\n',
-        '/contact': 'Contact information for feedback and queries.\n'
+        '/contact': 'Contact information for feedback and queries.\n',
+        '/info': 'About the creators.'
     }
 
     # start the bot
@@ -216,6 +217,12 @@ def fetch_ipo_details():
                 item['Issue Price (Rs. Cr.)']
             )
             bot.send_message(message.chat.id, data_str)
+
+    @bot.message_handler(commands=['info'])
+    def info(message):
+        bot.send_message(message.chat.id, INFO_MESSAGE)
+        bot.send_message(message.chat.id, CREATORS_LINK_1)
+        bot.send_message(message.chat.id, CREATORS_LINK_2)
 
 
     print('👂 Listening for messages')

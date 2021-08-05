@@ -56,3 +56,10 @@ V1_DATA_STR = 'Issuer Company: {}\nExchange: {}\nOpen: {}\nClose: {}\nLot Size: 
               'Rs. Cr.): {}'
 BROKER_URL = 'redis://127.0.0.1:6379/0'
 PAYMENTS_LINK = 'https://rzp.io/i/GPZBQoopbn'
+INFO_MESSAGE = 'This bot was created with the purpose of providing reliable information about IPOs. '
+CREATORS_LINK_1 = 'Created by Aaditya Rangarajan: {}'.format(
+    'https://almondine-tamarillo-1ce.notion.site/Hey-there-7d1f73288db34da6a18d84587096a216',
+)
+CREATORS_LINK_2 = 'In collaboration with Amol Soans: {}'.format(
+    'https://wonderful-lewin-6295dc.netlify.app/'
+)
